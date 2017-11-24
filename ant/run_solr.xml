@@ -1,0 +1,26 @@
+<project default="default.target" basedir="." name="prepare soler">
+<!-- all toolkit specific properties go in here-->
+    <property file="dataload_build.properties" />
+    
+    <!-- set properties for the folder names we are going to use,
+srcDir is where files will be coped from and destDir is where backup will be saved-->
+    
+    
+    <taskdef resource="net/sf/antcontrib/antlib.xml">
+        <classpath>
+            <pathelement location="lib/ant-contrib-1.0b3.jar" />
+        </classpath>
+    </taskdef>
+    
+   <target name="wc.status" description="">
+          
+          <condition property="tomcat.running">
+             <socket server="server1" port="8000"/> 
+          </condition>
+          <echo message="${tomcat.running}" />
+   </target>
+   
+    <!-- solr.backup.files -->
+    <target name="default.target" depends="wc.status"/>
+
+</project>
