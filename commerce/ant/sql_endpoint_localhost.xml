@@ -1,0 +1,35 @@
+<project default="default.sql" basedir="." name="XML IDResgen and Massload">
+    
+    <property file="common.properties" /> 
+
+    <taskdef resource="net/sf/antcontrib/antlib.xml">
+        <classpath>
+            <pathelement location="lib/ant-contrib-1.0b3.jar" />
+        </classpath>
+    </taskdef>
+    
+    <target name="sql.config.tolocalhost" description="">
+                <!--
+                <record name="${build.log.dir}/${build.log.filename}" 
+                            loglevel="debug" append="false"/>
+                        
+                <echo message="Build logged to ${build.log.filename}"/>
+                -->
+                <echo message="Moving services endpints to localhost."/>
+               
+                <sql
+                    keepformat="yes"
+                    delimitertype="row"
+                    classpath="${wcs.database.path}"    
+                    driver="${wcs.database.driver}"
+                    url="${wcs.database.url}"
+                    userid="${wcs.database.user}"
+                    password="${wcs.database.pass}"
+                    src="${load.xconfig.file}">
+                </sql>
+                
+        </target>
+    
+    <target name="default.sql" depends="sql.config.tolocalhost" />
+
+</project>

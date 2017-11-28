@@ -1,0 +1,64 @@
+<project default="default.solr.target" basedir="." name="prepare soler">
+<!-- all toolkit specific properties go in here-->
+    <property file="dataload_build.properties" />
+    
+    <!-- set properties for the folder names we are going to use,
+srcDir is where files will be coped from and destDir is where backup will be saved-->
+    
+    
+    <taskdef resource="net/sf/antcontrib/antlib.xml">
+        <classpath>
+            <pathelement location="lib/ant-contrib-1.0b3.jar" />
+        </classpath>
+    </taskdef>
+    
+   <target name="solr.status.check" description="">
+        <exec executable="C:\IBM\WCDE_ENT70\bin\custom\isSolrRunning.bat" resultproperty="rest"/>
+        <condition property="running" value="true">		      
+		  <equals arg1="1" arg2="${rest}"/>		      
+        </condition>  
+   </target>
+   
+   <target name="solr.status" depends="solr.status.check" if="running">
+        <echo message="please stop soler before running this script" />
+   </target>
+
+ 
+    <target name="solr.backup.files" depends="solr.status.check" unless="running">
+	    <property name="srcDir" value="C:\IBM\WCDE_ENT70\search"/>
+	    <property name="destDir" value="C:\IBM\WCDE_ENT70\"/>
+	    <!-- create a timestamp for the naming the Zip file-->
+	    <tstamp>
+	        <format property="NOW_UK" pattern="yyyymmddhhmm" locale="en,UK"/>
+	    </tstamp>
+	    
+	    <!-- name of the zip file - based on current timestamp-->
+	    <property name="zipFilename" value="search.bkp.${NOW_UK}.zip" />
+    
+  
+        <echo message="backuping solr files" />
+        <zip destfile="${destDir}/${zipFilename}" basedir="${srcDir}" update="true" />
+        <echo level="info" message="File ${zipFilename} saved" />
+           
+        <echo message="copying buildindex files." />
+        <copy todir="C:\IBM\WCDE_ENT70\search\solr\home\MC_10101\es_ES\CatalogEntry\conf" overwrite="true" flatten="true">
+		    <fileset dir="C:\IBM\WCDE_ENT70\workspace\Dataload\xml\solr\ambientes_desarrollo_VMs\buildindex">
+		        <include name="**"/>
+		    </fileset>
+		</copy>
+		<echo level="info" message="buildindex files copied" />
+        <echo message="copying preprocess files." />
+        <copy todir="C:\IBM\WCDE_ENT70\search\pre-processConfig\MC_10101\Oracle" overwrite="true" flatten="true">
+            <fileset dir="C:\IBM\WCDE_ENT70\workspace\Dataload\xml\solr\ambientes_desarrollo_VMs\preprocess">
+                <include name="**"/>
+            </fileset>
+        </copy>
+        <echo level="info" message="preprocess files copied" />
+        <echo message="Please check messages.txt for failures." />
+        
+    </target>
+    <!-- solr.backup.files -->
+    <target name="default.solr.target" depends="solr.status,solr.backup.files"/>
+
+</project>
+

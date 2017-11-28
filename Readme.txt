@@ -1,6 +1,6 @@
 
 cmd's ...
-    cd C:\IBM\WCDE_ENT70\workspace\XUtill>
+    cd C:\IBM\WCDE_ENT70\workspace\XUtill
     
     git add .
     git commit -m "commit msg ..."
