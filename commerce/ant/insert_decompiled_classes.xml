@@ -1,0 +1,9 @@
+<project default="insert_class" basedir="." name="prepare soler">
+<target name="copy_to_workspace" description="Coppia clases decompiladas al workspace">
+    <copy todir="C:\IBM\WCDE_ENT70\workspace\" overwrite="yes">
+        <fileset dir="../class/decompiled">
+        </fileset>
+    </copy>
+</target>
+<target name="insert_class" depends="copy_to_workspace"/>
+</project>

@@ -1,0 +1,17 @@
+<project default="compress" basedir="." name="prepare soler">
+<target name="compress.js" description="compress the JS files">
+    <copy todir="../class/decompiled" overwrite="yes">
+        <fileset dir="C:\IBM\WCDE_ENT70\workspace\">
+            <exclude name="*" />
+            <include name="WebSphereCommerceServerExtensionsLogic\src\com\ibm\**"/>
+        </fileset>
+    </copy>
+   <!-- 
+    <move todir="C:\IBM\WCDE_ENT70\workspace\Stores\WebContent\" overwrite="true">
+        <fileset dir="temp/js" />
+        <mapper type="glob" from="*-min.js" to="*.js"/>
+    </move>
+     -->
+</target>
+<target name="compress" depends="compress.js"/>
+</project>
